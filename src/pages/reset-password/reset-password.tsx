@@ -1,8 +1,19 @@
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-import { resetPasswordApi } from '@api';
+import { resetPasswordApi, TRegisterData } from '@api';
 import { ResetPasswordUI } from '@ui-pages';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+
+export const resetPasswordUser = createAsyncThunk(
+  'user/resetPasswordUser',
+  async (data: { password: string; token: string }, thunkAPI) => {
+    try {
+      return await resetPasswordApi(data);
+    } catch (err) {
+      return thunkAPI.rejectWithValue('Ошибка сброса пароля');
+    }
+  }
+);
 
 export const ResetPassword: FC = () => {
   const navigate = useNavigate();
