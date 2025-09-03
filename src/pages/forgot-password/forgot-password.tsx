@@ -10,7 +10,9 @@ export const forgotPasswordUser = createAsyncThunk(
     try {
       return await forgotPasswordApi(data);
     } catch (err) {
-      return thunkAPI.rejectWithValue('Ошибка восстановления пароля');
+      return thunkAPI.rejectWithValue(
+        'Ошибка связанная с восстановления пароля'
+      );
     }
   }
 );

@@ -4,17 +4,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../services/store';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { loginUserApi, TLoginData } from '@api';
-import { getUser } from '../profile/profile-slice';
 import { useNavigate } from 'react-router-dom';
+import { getUser } from '../profile/profile-slice';
+import { setCookie } from '../../utils/cookie';
 
 export const loginUser = createAsyncThunk(
   'user/login',
   async (data: TLoginData, thunkAPI) => {
     try {
       const res = await loginUserApi(data);
-      return res;
+      localStorage.setItem('refreshToken', res.refreshToken);
+      setCookie('accessToken', res.accessToken);
+
+      return res.user;
     } catch (error) {
-      return thunkAPI.rejectWithValue('Ошибка загрузки');
+      return thunkAPI.rejectWithValue('Ошибка при входе');
     }
   }
 );

@@ -9,10 +9,8 @@ import { feedReducer } from '../pages/feed/feed';
 import { orderInfoReducer } from '../components/order-info/order-info';
 import { categoryIngredientReducer } from '../components/ingredients-category/ingredients-category';
 import { constructorReducer } from '../components/burger-constructor/burger-constructor';
-import { userSlice } from '../pages/profile/profile-slice';
 import { ordersReducer } from '../pages/profile-orders/profile-orders';
-
-//const rootReducer = () => {};  Заменить на импорт настоящего редьюсера
+import { userSlice } from '../pages/profile/profile-slice';
 
 const rootReducer = combineReducers({
   feed: feedReducer,

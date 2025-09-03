@@ -1,14 +1,7 @@
 import { ProfileUI } from '@ui-pages';
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getCookie } from '../../utils/cookie';
 import { getUser } from './profile-slice';
-
-export const isTokenExists = (): boolean => {
-  const accessToken = getCookie('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-  return Boolean(accessToken && refreshToken);
-};
 
 export const Profile: FC = () => {
   /** TODO: взять переменную из стора */

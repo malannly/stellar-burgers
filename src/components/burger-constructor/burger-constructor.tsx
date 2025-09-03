@@ -1,46 +1,34 @@
-import { FC, useMemo, useState } from 'react';
+import { FC, useEffect, useMemo, useState } from 'react';
 import { TConstructorIngredient, TIngredient, TOrder } from '@utils-types';
 import { BurgerConstructorUI } from '@ui';
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../services/store';
 import { orderBurgerApi } from '@api';
-import type { TNewOrderResponse } from '../../utils/burger-api';
 import { useNavigate } from 'react-router-dom';
+import { getCookie } from '../../utils/cookie';
+import { getUser } from '../../pages/profile/profile-slice';
 
-export const fetchConstructor = createAsyncThunk<
-  TNewOrderResponse,
-  string[],
-  { rejectValue: string }
->(
+export const fetchConstructor = createAsyncThunk(
   'constructorBurger/fetchConstructorBurger',
-  async (ingredients: string[], thunkAPI) => {
-    try {
-      const response = await orderBurgerApi(ingredients);
-      return response;
-    } catch (error) {
-      return thunkAPI.rejectWithValue('Ошибка при оформлении заказа');
-    }
-  }
+  async (ingredients: string[]) => orderBurgerApi(ingredients)
 );
 
-type ConstructorSliceState = {
+type OrderState = {
   constructorItems: {
     bun: TIngredient | null;
     ingredients: TConstructorIngredient[];
   };
   orderRequest: boolean;
-  orderModalData: TNewOrderResponse | null;
-  constructorOrder: TOrder[];
+  orderModalData: TOrder | null;
   loading: boolean;
   error: string | null;
 };
 
-const initialState: ConstructorSliceState = {
+const initialState: OrderState = {
   constructorItems: { bun: null, ingredients: [] },
   orderRequest: false,
   orderModalData: null,
-  constructorOrder: [],
   loading: false,
   error: null
 };
@@ -49,14 +37,9 @@ const constructorSlice = createSlice({
   name: 'constructorBurger',
   initialState,
   reducers: {
-    sendOrder(state, action: PayloadAction<TOrder[]>) {
-      state.constructorOrder = action.payload;
-    },
-
     closeOrder(state) {
       state.orderModalData = null;
     },
-
     ingredientAdd(state, action: PayloadAction<TIngredient>) {
       if (action.payload.type === 'bun') {
         state.constructorItems.bun = action.payload;
@@ -65,14 +48,12 @@ const constructorSlice = createSlice({
         state.constructorItems.ingredients.push({ ...action.payload, id });
       }
     },
-
     ingredientRemove(state, action: PayloadAction<string>) {
       state.constructorItems.ingredients =
         state.constructorItems.ingredients.filter(
           (ing) => ing.id !== action.payload
         );
     },
-
     moveIngredientUp(state, action: PayloadAction<string>) {
       const index = state.constructorItems.ingredients.findIndex(
         (ing) => ing.id === action.payload
@@ -87,7 +68,6 @@ const constructorSlice = createSlice({
         ];
       }
     },
-
     moveIngredientDown(state, action: PayloadAction<string>) {
       const index = state.constructorItems.ingredients.findIndex(
         (ing) => ing.id === action.payload
@@ -97,35 +77,33 @@ const constructorSlice = createSlice({
         index < state.constructorItems.ingredients.length - 1
       ) {
         [
-          state.constructorItems.ingredients[index],
-          state.constructorItems.ingredients[index + 1]
-        ] = [
           state.constructorItems.ingredients[index + 1],
           state.constructorItems.ingredients[index]
+        ] = [
+          state.constructorItems.ingredients[index],
+          state.constructorItems.ingredients[index + 1]
         ];
       }
     },
-
     clearConstructor(state) {
       state.constructorItems.bun = null;
       state.constructorItems.ingredients = [];
     }
   },
-
   extraReducers: (builder) => {
     builder
       .addCase(fetchConstructor.pending, (state) => {
         state.orderRequest = true;
         state.orderModalData = null;
+        state.error = null;
+      })
+      .addCase(fetchConstructor.fulfilled, (state, action) => {
+        state.orderRequest = false;
+        state.orderModalData = action.payload.order;
       })
       .addCase(fetchConstructor.rejected, (state, action) => {
         state.orderRequest = false;
         state.error = action.payload as string;
-      })
-      .addCase(fetchConstructor.fulfilled, (state, action) => {
-        state.orderRequest = false;
-        state.orderModalData = action.payload;
-        console.log(action.payload);
       });
   }
 });
@@ -154,19 +132,25 @@ export const BurgerConstructor: FC = () => {
   const orderModalData = useSelector(
     (state: RootState) => state.constructorBurger.orderModalData
   );
-  console.log('orderModalData:', orderModalData);
 
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const user = useSelector(getUser);
 
   const onOrderClick = () => {
     if (!constructorItems.bun || orderRequest) return;
 
-    // const accessToken = getCookie('accessToken');
-    // if (!accessToken) {
-    //   navigate('/login');
-    //   return;
-    // }
+    if (!user) {
+      navigate('/login', { replace: true });
+      return;
+    }
+
+    const accessToken = getCookie('accessToken');
+    if (!accessToken) {
+      console.log('Нет токена, редирект на login');
+      navigate('/login', { replace: true });
+      return;
+    }
 
     const ingredientIds = [
       constructorItems.bun._id,
@@ -174,7 +158,7 @@ export const BurgerConstructor: FC = () => {
       constructorItems.bun._id
     ];
 
-    dispatch(fetchConstructor(ingredientIds)).unwrap();
+    dispatch(fetchConstructor(ingredientIds));
   };
 
   const [isOpen, setIsOpen] = useState(false);
@@ -200,7 +184,7 @@ export const BurgerConstructor: FC = () => {
       price={price}
       orderRequest={orderRequest}
       constructorItems={constructorItems}
-      orderModalData={orderModalData?.order ?? null}
+      orderModalData={orderModalData}
       onOrderClick={onOrderClick}
       closeOrderModal={closeOrderModal}
     />

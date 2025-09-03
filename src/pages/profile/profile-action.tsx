@@ -1,7 +1,7 @@
 import { getUserApi, loginUserApi, logoutApi, TLoginData } from '@api';
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { isTokenExists } from './profile';
 import { setUser } from './profile-slice';
+import { isTokenExists } from './ptotected-route';
 
 export const setIsAuthChecked = createAction<boolean, 'user/setIsAuthChecked'>(
   'user/setIsAuthChecked'

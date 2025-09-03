@@ -20,7 +20,6 @@ import { fetchFeeds } from '../../pages/feed/feed';
 import { fetchCategoryIngredients } from '../ingredients-category/ingredients-category';
 import { OnlyAuth, OnlyUnAuth } from '../../pages/profile/ptotected-route';
 import { checkUserAuth } from '../../pages/profile/profile-action';
-import { fetchConstructor } from '../burger-constructor/burger-constructor';
 
 const App = () => {
   const navigate = useNavigate();
@@ -51,13 +50,10 @@ const App = () => {
           path='/reset-password'
           element={<OnlyUnAuth component={<ResetPassword />} />}
         />
-        <Route
-          path='/profile'
-          element={<OnlyUnAuth component={<Profile />} />}
-        />
+        <Route path='/profile' element={<OnlyAuth component={<Profile />} />} />
         <Route
           path='/profile/orders'
-          element={<OnlyUnAuth component={<ProfileOrders />} />}
+          element={<OnlyAuth component={<ProfileOrders />} />}
         />
         <Route path='*' element={<NotFound404 />} />
         <Route
@@ -79,9 +75,13 @@ const App = () => {
         <Route
           path='/profile/orders/:number'
           element={
-            <Modal title='Информация о заказе' onClose={() => navigate(-1)}>
-              <OrderInfo />
-            </Modal>
+            <OnlyAuth
+              component={
+                <Modal title='Информация о заказе' onClose={() => navigate(-1)}>
+                  <OrderInfo />
+                </Modal>
+              }
+            />
           }
         />
       </Routes>

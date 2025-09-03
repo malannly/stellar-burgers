@@ -4,6 +4,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { registerUserApi, TRegisterData } from '@api';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../services/store';
+import { useNavigate } from 'react-router-dom';
 
 export const registerUser = createAsyncThunk(
   'user/registerUser',
@@ -22,10 +23,20 @@ export const Register: FC = () => {
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    dispatch(registerUser({ email, password, name: userName }));
+    try {
+      const resultAction = await dispatch(
+        registerUser({ email, password, name: userName })
+      );
+      if (registerUser.fulfilled.match(resultAction)) {
+        navigate('/login');
+      }
+    } catch (error) {
+      console.error('Ошибка регистрации:', error);
+    }
   };
 
   return (

@@ -16,7 +16,7 @@ export const initialState: TUserState = {
 };
 
 export const userSlice = createSlice({
-  name: 'userProfile',
+  name: 'user',
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<TUser | null>) => {
@@ -26,7 +26,7 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.fulfilled, (state, action) => {
-        state.user = action.payload.user;
+        state.user = action.payload;
         state.isAuthChecked = true;
       })
       .addCase(logoutUser.fulfilled, (state) => {
