@@ -1,3 +1,4 @@
+/// <reference types="cypress" />
 {
   "compilerOptions": {
     "target": "es5",
@@ -15,7 +16,7 @@
     "isolatedModules": true,
     "noEmit": false,
     "jsx": "react-jsx",
-    "types": ["node", "jest"],
+    "types": ["node", "jest", "cypress"],
     "baseUrl": ".",
     "paths": {
       "@pages": ["src/pages"],

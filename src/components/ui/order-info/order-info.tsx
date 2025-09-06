@@ -3,14 +3,15 @@ import {
   CurrencyIcon,
   FormattedDate
 } from '@zlden/react-developer-burger-ui-components';
-
 import styles from './order-info.module.css';
-
 import { OrderInfoUIProps } from './type';
 import { OrderStatus } from '@components';
 
 export const OrderInfoUI: FC<OrderInfoUIProps> = memo(({ orderInfo }) => (
   <div className={styles.wrap}>
+    <h3 className={`text text_type_main-medium  pb-3 pt-10 ${styles.number}`}>
+      {` #` + orderInfo.number}
+    </h3>
     <h3 className={`text text_type_main-medium  pb-3 pt-10 ${styles.header}`}>
       {orderInfo.name}
     </h3>
