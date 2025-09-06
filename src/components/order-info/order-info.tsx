@@ -1,70 +1,19 @@
 import { FC, useMemo, useEffect } from 'react';
 import { Preloader } from '../ui/preloader';
 import { OrderInfoUI } from '../ui/order-info';
-import { TIngredient, TOrder } from '@utils-types';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getOrderByNumberApi } from '@api';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../services/store';
+import { TIngredient } from '@utils-types';
 import { useParams } from 'react-router-dom';
-
-export const fetchOrderInfo = createAsyncThunk(
-  'orderInfo/fetchOrderInfo',
-  async (number: number, thunkAPI) => {
-    try {
-      const data = await getOrderByNumberApi(number);
-      return data.orders[0];
-    } catch (error) {
-      return thunkAPI.rejectWithValue('Ошибка загрузки');
-    }
-  }
-);
-
-type OrderInfoState = {
-  orderData: TOrder | null;
-  loading: boolean;
-  error: string | null;
-};
-
-const initialState: OrderInfoState = {
-  orderData: null,
-  loading: false,
-  error: null
-};
-
-const orderInfoSlice = createSlice({
-  name: 'orderInfo',
-  initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchOrderInfo.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(fetchOrderInfo.fulfilled, (state, action) => {
-        state.loading = false;
-        state.orderData = action.payload;
-      })
-      .addCase(fetchOrderInfo.rejected, (state, action) => {
-        state.loading = false;
-        state.error = action.payload as string;
-      });
-  }
-});
-
-export const orderInfoReducer = orderInfoSlice.reducer;
+import { useAppDispatch, useAppSelector } from '../../services/store';
+import { fetchOrderInfo } from '../../services/order-info-slice';
 
 export const OrderInfo: FC = () => {
   /** TODO: взять переменные orderData и ingredients из стора */
   const { number } = useParams();
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
 
-  const { orderData, loading } = useSelector(
-    (state: RootState) => state.orderInfo
-  );
-  const ingredients = useSelector(
-    (state: RootState) => state.ingredients.ingredientCategory
+  const { orderData, loading } = useAppSelector((state) => state.orderInfo);
+  const ingredients = useAppSelector(
+    (state) => state.ingredients.ingredientCategory
   );
 
   useEffect(() => {

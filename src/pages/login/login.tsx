@@ -1,12 +1,11 @@
 import { FC, SyntheticEvent, useEffect, useState } from 'react';
 import { LoginUI } from '@ui-pages';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../services/store';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { loginUserApi, TLoginData } from '@api';
 import { useNavigate } from 'react-router-dom';
-import { getUser } from '../profile/profile-slice';
+import { getUser } from '../../services/profile-slice';
 import { setCookie } from '../../utils/cookie';
+import { useAppDispatch, useAppSelector } from '../../services/store';
 
 export const loginUser = createAsyncThunk(
   'user/login',
@@ -27,9 +26,9 @@ export const Login: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const user = useSelector(getUser);
+  const user = useAppSelector(getUser);
 
   useEffect(() => {
     if (user) {

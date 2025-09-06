@@ -2,9 +2,8 @@ import { FC, SyntheticEvent, useState } from 'react';
 import { RegisterUI } from '@ui-pages';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { registerUserApi, TRegisterData } from '@api';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../services/store';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../services/store';
 
 export const registerUser = createAsyncThunk(
   'user/registerUser',
@@ -22,7 +21,7 @@ export const Register: FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: SyntheticEvent) => {

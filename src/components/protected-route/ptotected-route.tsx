@@ -1,8 +1,8 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { getIsAuthChecked, getUser } from './profile-slice';
+import { getIsAuthChecked, getUser } from '../../services/profile-slice';
 import { getCookie } from '../../utils/cookie';
+import { useAppSelector } from '../../services/store';
 
 export const isTokenExists = (): boolean => {
   const accessToken = getCookie('accessToken');
@@ -19,8 +19,8 @@ const Protected = ({
   onlyUnAuth = false,
   component
 }: ProtectedProps): React.JSX.Element => {
-  const user = useSelector(getUser);
-  const isAuthChecked = useSelector(getIsAuthChecked);
+  const user = useAppSelector(getUser);
+  const isAuthChecked = useAppSelector(getIsAuthChecked);
   const location = useLocation();
 
   if (!isAuthChecked) {

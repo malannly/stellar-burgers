@@ -2,13 +2,12 @@ import { useState, useRef, useEffect, FC } from 'react';
 import { useInView } from 'react-intersection-observer';
 import { TTabMode } from '@utils-types';
 import { BurgerIngredientsUI } from '../ui/burger-ingredients';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/services/store';
+import { useAppSelector } from '../../services/store';
 
 export const BurgerIngredients: FC = () => {
   /** TODO: взять переменные из стора */
-  const ingredientCategory = useSelector(
-    (state: RootState) => state.ingredients.ingredientCategory
+  const ingredientCategory = useAppSelector(
+    (state) => state.ingredients.ingredientCategory
   );
 
   const buns = ingredientCategory.filter((item) => item.type === 'bun');

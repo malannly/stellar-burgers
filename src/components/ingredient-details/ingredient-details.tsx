@@ -1,22 +1,21 @@
 import { FC, useEffect } from 'react';
 import { Preloader } from '../ui/preloader';
 import { IngredientDetailsUI } from '../ui/ingredient-details';
-import { RootState, useSelector } from '../../services/store';
 import { useParams } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { setSelectedIngredient } from '../ingredients-category/ingredients-category';
+import { setSelectedIngredient } from '../../services/ingredeints-category-slice';
+import { useAppDispatch, useAppSelector } from '../../services/store';
 
 export const IngredientDetails: FC = () => {
   /** TODO: взять переменную из стора */
   const { id } = useParams();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const allIngredients = useSelector(
-    (state: RootState) => state.ingredients.ingredientCategory
+  const allIngredients = useAppSelector(
+    (state) => state.ingredients.ingredientCategory
   );
 
-  const ingredientData = useSelector(
-    (state: RootState) => state.ingredients.selectedIngredient
+  const ingredientData = useAppSelector(
+    (state) => state.ingredients.selectedIngredient
   );
 
   useEffect(() => {
