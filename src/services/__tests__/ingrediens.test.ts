@@ -216,8 +216,17 @@ describe('testing the ingredients in the burger', () => {
   });
 
   it('the request is pending', () => {
-    const order: TOrder = { _id: '1', name: 'orderBurger', status: 'done', number: 1, createdAt: '', updatedAt: '', ingredients: [] };
-    const state = constructorReducer(initialState, { type: fetchConstructor.fulfilled.type, payload: { order } });
+    const order: TOrder =
+    { _id: '1',
+      name: 'orderBurger',
+      status: 'done',
+      number: 1,
+      createdAt: '',
+      updatedAt: '',
+      ingredients: [] };
+    const state = 
+    constructorReducer(initialState,
+      { type: fetchConstructor.fulfilled.type, payload: { order } });
     expect(state.orderRequest).toBe(false);
     expect(state.orderModalData).toEqual(order);
     expect(state.constructorItems.bun).toBeNull();
@@ -225,7 +234,9 @@ describe('testing the ingredients in the burger', () => {
   });
 
   it('the request is rejected', () => {
-    const state = constructorReducer(initialState, { type: fetchConstructor.rejected.type, payload: 'Error' });
+    const state =
+    constructorReducer(initialState,
+      { type: fetchConstructor.rejected.type, payload: 'Error' });
     expect(state.orderRequest).toBe(false);
     expect(state.error).toBe('Error');
   });
