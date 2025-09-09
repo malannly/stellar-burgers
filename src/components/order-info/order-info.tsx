@@ -4,7 +4,7 @@ import { OrderInfoUI } from '../ui/order-info';
 import { TIngredient } from '@utils-types';
 import { useParams } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../services/store';
-import { fetchOrderInfo } from '../../services/order-info-slice';
+import { fetchOrderInfo } from '../../services/auth_thunks/order-info-thunk';
 
 export const OrderInfo: FC = () => {
   /** TODO: взять переменные orderData и ingredients из стора */

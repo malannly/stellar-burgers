@@ -2,20 +2,6 @@ import { FC, useState, SyntheticEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { forgotPasswordApi, TRegisterData } from '@api';
 import { ForgotPasswordUI } from '@ui-pages';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-
-export const forgotPasswordUser = createAsyncThunk(
-  'user/forgotPasswordUser',
-  async (data: { email: string }, thunkAPI) => {
-    try {
-      return await forgotPasswordApi(data);
-    } catch (err) {
-      return thunkAPI.rejectWithValue(
-        'Ошибка связанная с восстановления пароля'
-      );
-    }
-  }
-);
 
 export const ForgotPassword: FC = () => {
   const [email, setEmail] = useState('');

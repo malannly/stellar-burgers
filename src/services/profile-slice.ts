@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TUser } from '@utils-types';
 import { RootState } from './store';
-import { loginUser } from '../pages/login/login';
-import { logoutUser } from '../components/profile-menu/profile-menu';
-import { setIsAuthChecked } from '../pages/profile/profile-action';
+import { setIsAuthChecked } from './profile-action';
+import { loginUser } from './auth_thunks/user-thunk';
+import { logoutUser } from './auth_thunks/profile-menu-thunk';
 
 type TUserState = {
   user: TUser | null;

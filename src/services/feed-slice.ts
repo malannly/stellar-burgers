@@ -1,19 +1,6 @@
-import { getFeedsApi } from '@api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
-
-// async thunk
-export const fetchFeeds = createAsyncThunk(
-  'feed/fetchFeed',
-  async (_, thunkAPI) => {
-    try {
-      const data = await getFeedsApi();
-      return data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue('Ошибка загрузки');
-    }
-  }
-);
+import { fetchFeeds } from './auth_thunks/feed-thunk';
 
 type FeedState = {
   orders: TOrder[];
@@ -21,7 +8,7 @@ type FeedState = {
   totalToday: number;
 };
 
-const initialState: FeedState = {
+export const initialState: FeedState = {
   orders: [],
   total: 0,
   totalToday: 0

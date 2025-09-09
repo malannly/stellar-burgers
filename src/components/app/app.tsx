@@ -16,9 +16,9 @@ import {
 import { AppDispatch } from '../../services/store';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { OnlyAuth, OnlyUnAuth } from '../protected-route/ptotected-route';
-import { checkUserAuth } from '../../pages/profile/profile-action';
-import { fetchCategoryIngredients } from '../../services/ingredeints-category-slice';
+import { OnlyAuth, OnlyUnAuth } from '../../protected-route/ptotected-route';
+import { checkUserAuth } from '../../services/profile-action';
+import { fetchCategoryIngredients } from '../../services/auth_thunks/ingredients-category-thunk';
 
 const App = () => {
   const dispatch = useDispatch<AppDispatch>();

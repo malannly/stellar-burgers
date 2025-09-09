@@ -1,18 +1,6 @@
-import { getOrderByNumberApi } from '@api';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
-
-export const fetchOrderInfo = createAsyncThunk(
-  'orderInfo/fetchOrderInfo',
-  async (number: number, thunkAPI) => {
-    try {
-      const data = await getOrderByNumberApi(number);
-      return data.orders[0];
-    } catch (error) {
-      return thunkAPI.rejectWithValue('Ошибка загрузки');
-    }
-  }
-);
+import { fetchOrderInfo } from './auth_thunks/order-info-thunk';
 
 type OrderInfoState = {
   orderData: TOrder | null;
@@ -20,7 +8,7 @@ type OrderInfoState = {
   error: string | null;
 };
 
-const initialState: OrderInfoState = {
+export const initialState: OrderInfoState = {
   orderData: null,
   loading: false,
   error: null

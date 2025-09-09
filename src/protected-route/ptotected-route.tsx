@@ -1,14 +1,7 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { getIsAuthChecked, getUser } from '../../services/profile-slice';
-import { getCookie } from '../../utils/cookie';
-import { useAppSelector } from '../../services/store';
-
-export const isTokenExists = (): boolean => {
-  const accessToken = getCookie('accessToken');
-  const refreshToken = localStorage.getItem('refreshToken');
-  return Boolean(accessToken && refreshToken);
-};
+import { getIsAuthChecked, getUser } from '../services/profile-slice';
+import { useAppSelector } from '../services/store';
 
 type ProtectedProps = {
   onlyUnAuth?: boolean;
