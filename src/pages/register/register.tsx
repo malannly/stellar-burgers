@@ -1,18 +1,46 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { RegisterUI } from '@ui-pages';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import { registerUserApi, TRegisterData } from '@api';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../services/store';
+
+export const registerUser = createAsyncThunk(
+  'user/registerUser',
+  async (userData: TRegisterData, thunkAPI) => {
+    try {
+      return await registerUserApi(userData);
+    } catch (err) {
+      return thunkAPI.rejectWithValue(err || 'Ошибка регистрации');
+    }
+  }
+);
 
 export const Register: FC = () => {
   const [userName, setUserName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e: SyntheticEvent) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
+    try {
+      const resultAction = await dispatch(
+        registerUser({ email, password, name: userName })
+      );
+      if (registerUser.fulfilled.match(resultAction)) {
+        navigate('/login');
+      }
+    } catch (error) {
+      console.error('Ошибка регистрации:', error);
+    }
   };
 
   return (
     <RegisterUI
-      errorText=''
+      errorText='Ошибка регистрации'
       email={email}
       userName={userName}
       password={password}
