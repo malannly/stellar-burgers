@@ -5,7 +5,6 @@ import { initialState as ingredients } from '../ingredeints-category-slice';
 import { initialState as orderInfo } from '../order-info-slice';
 import { initialState as constructorBurger } from '../burger-constructor-slice';
 import { initialState as orders } from '../profile-orders-slice';
-// import '@testing-library/jest-dom';
 
 const initState = {
   user: profile,
