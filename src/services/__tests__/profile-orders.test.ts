@@ -1,5 +1,6 @@
 import { profileOrdersSlice, initialState, setUserOrders, addUserOrder, clearUserOrders } from '../profile-orders-slice';
 import { TOrder } from '@utils-types';
+import {expect} from '@jest/globals';
 
 describe('testing the profile order', () => {
   const order1: TOrder =

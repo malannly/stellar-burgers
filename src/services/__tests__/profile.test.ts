@@ -3,6 +3,7 @@ import { loginUser } from '../auth_thunks/user-thunk';
 import { setIsAuthChecked } from '../profile-action';
 import { userSlice, initialState, setUser } from '../profile-slice';
 import { TUser } from '@utils-types';
+import {expect} from '@jest/globals';
 
 describe('testing user reducer', () => {
   const user: TUser = {

@@ -9,6 +9,7 @@ import {
   fetchConstructor
 } from '../burger-constructor-slice';
 import { TIngredient, TConstructorIngredient, TOrder } from '@utils-types';
+import {expect} from '@jest/globals';
 
 describe('testing the creation of the burger', () => {
   const bun: TIngredient = {

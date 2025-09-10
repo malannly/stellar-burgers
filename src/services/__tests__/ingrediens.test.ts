@@ -9,6 +9,7 @@ import {
   closeOrder,
   fetchConstructor
 } from '../burger-constructor-slice';
+import {expect} from '@jest/globals';
 
 describe('testing the ingredients in the burger', () => {
   it('initial state', () => {

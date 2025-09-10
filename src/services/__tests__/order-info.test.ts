@@ -1,6 +1,7 @@
 import { fetchOrderInfo } from '../auth_thunks/order-info-thunk';
 import { orderInfoReducer, initialState } from '../order-info-slice';
 import { TOrder } from '@utils-types';
+import {expect} from '@jest/globals';
 
 describe('testing the order information', () => {
   const order: TOrder = {

@@ -1,6 +1,7 @@
 import { fetchFeeds } from '../auth_thunks/feed-thunk';
 import { feedReducer, initialState, setOrders } from '../feed-slice';
 import { TOrder } from '@utils-types';
+import {expect} from '@jest/globals';
 
 describe('testing the burger orders', () => {
   const orders: TOrder[] = [

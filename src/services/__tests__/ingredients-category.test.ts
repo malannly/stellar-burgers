@@ -6,6 +6,7 @@ import {
   setSelectedIngredient
 } from '../ingredeints-category-slice';
 import { TIngredient } from '@utils-types';
+import {expect} from '@jest/globals';
 
 describe('testing the ingredients categories', () => {
   it('the request is pending', () => {
