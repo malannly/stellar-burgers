@@ -1,7 +1,13 @@
-import { getUserApi, loginUserApi, logoutApi, TLoginData } from '@api';
+import { getUserApi } from '@api';
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { setUser } from '../../services/profile-slice';
-import { isTokenExists } from '../../components/protected-route/ptotected-route';
+import { setUser } from './profile-slice';
+import { getCookie } from '../utils/cookie';
+
+export const isTokenExists = (): boolean => {
+  const accessToken = getCookie('accessToken');
+  const refreshToken = localStorage.getItem('refreshToken');
+  return Boolean(accessToken && refreshToken);
+};
 
 export const setIsAuthChecked = createAction<boolean, 'user/setIsAuthChecked'>(
   'user/setIsAuthChecked'

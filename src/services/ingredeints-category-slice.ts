@@ -1,18 +1,6 @@
-import { getIngredientsApi } from '@api';
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { TIngredient } from '@utils-types';
-
-export const fetchCategoryIngredients = createAsyncThunk(
-  'ingredients/fetchIngredientsCategory',
-  async (_, thunkAPI) => {
-    try {
-      const data = await getIngredientsApi();
-      return data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue('Ошибка загрузки');
-    }
-  }
-);
+import { fetchCategoryIngredients } from './auth_thunks/ingredients-category-thunk';
 
 type IngredientCategoryState = {
   ingredientCategory: TIngredient[];
@@ -21,7 +9,7 @@ type IngredientCategoryState = {
   error: string | null;
 };
 
-const initialState: IngredientCategoryState = {
+export const initialState: IngredientCategoryState = {
   ingredientCategory: [],
   selectedIngredient: null,
   loading: false,

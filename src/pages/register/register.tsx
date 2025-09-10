@@ -1,20 +1,8 @@
 import { FC, SyntheticEvent, useState } from 'react';
 import { RegisterUI } from '@ui-pages';
-import { createAsyncThunk } from '@reduxjs/toolkit';
-import { registerUserApi, TRegisterData } from '@api';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../services/store';
-
-export const registerUser = createAsyncThunk(
-  'user/registerUser',
-  async (userData: TRegisterData, thunkAPI) => {
-    try {
-      return await registerUserApi(userData);
-    } catch (err) {
-      return thunkAPI.rejectWithValue(err || 'Ошибка регистрации');
-    }
-  }
-);
+import { registerUser } from '../../services/auth_thunks/register-thunk';
 
 export const Register: FC = () => {
   const [userName, setUserName] = useState('');

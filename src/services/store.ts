@@ -8,7 +8,7 @@ import { feedReducer } from './feed-slice';
 import { orderInfoReducer } from './order-info-slice';
 import { ordersReducer } from './profile-orders-slice';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   feed: feedReducer,
   ingredients: categoryIngredientReducer,
   orderInfo: orderInfoReducer,
